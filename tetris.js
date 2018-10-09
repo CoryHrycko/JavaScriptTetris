@@ -38,11 +38,12 @@ function drawMatrix(matrix, offset){
     });
 };
 // this function will continuously update the game
-function update(){
+function update(time = 0){
+    consol.log(time);
     // this function is passed 
     draw();
     // allows the fram by fram animation
-requestAnimationFrame(update);
+    requestAnimationFrame(update);
 
 }
 //making the player variable
