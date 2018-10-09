@@ -4,17 +4,20 @@ const canvas = document.getElementById('tetris');
 const context = canvas.getContext('2d')
 //scalling the blocks
 context.scale(20,20);
-//applying the background
+/*applying the background commented out in order to allow clearing
 context.fillStyle = '#000';
-context.fillRect(0,0,canvas.width, canvas.height)
+context.fillRect(0,0,canvas.width, canvas.height)*/
 //first block matrix
 const matrix = [
     [0,0,0],
     [1,1,1],
     [0,1,0],
 ];
-
+//simplifies the draw function
 function draw() {
+    //applying the clear function
+    context.fillStyle = '#000';
+    context.fillRect(0,0,canvas.width, canvas.height);
     drawMatrix(player.matrix,player.pos);
 }
 
@@ -34,13 +37,15 @@ function drawMatrix(matrix, offset){
         });
     });
 };
-
+// this function will continuously update the game
 function update(){
-draw();
+    // this function is passed 
+    draw();
+    // allows the fram by fram animation
 requestAnimationFrame(update);
 
 }
-
+//making the player variable
 const player = {
     pos: {x: 5,y: 5},
     matrix: matrix,
