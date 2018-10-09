@@ -14,6 +14,10 @@ const matrix = [
     [0,1,0],
 ];
 
+function draw() {
+    drawMatrix(player.matrix,player.pos);
+}
+
 //the drawing function
 function drawMatrix(matrix, offset){
     //for each to replicate all the variables in each row.
@@ -31,11 +35,21 @@ function drawMatrix(matrix, offset){
     });
 };
 
-const player
+function update(){
+draw();
+requestAnimationFrame(update);
+
+}
+
+const player = {
+    pos: {x: 5,y: 5},
+    matrix: matrix,
+
+}
 
 //draws the shape.
-drawMatrix(matrix,{x: 5, y:5 });
 
+update();
 
 
 
