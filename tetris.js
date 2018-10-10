@@ -85,9 +85,13 @@ function playerDrop(){
     }
     dropCounter=0;
 }
+//replaces the player movement in the keydown event listener to a proper function that also checks for boarders
 function playerMove(dir){
-    player.pos.x + dir;
-    if (collide(arena,player))
+    player.pos.x += dir;
+    if (collide(arena,player)){
+        player.pos.x -= dir;
+    }
+    
 }
 
 let dropCounter =0;
