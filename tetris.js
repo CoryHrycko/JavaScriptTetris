@@ -94,6 +94,26 @@ function playerMove(dir){
     
 }
 
+function rotate(matrix, dir){
+    for(let y=0;y<matrix.length;++y){
+        for (let x = 0;x<y; ++x){
+            //usually have to use a temp value to switch values
+            // with this built in function we can skip that [a,b]=[b,a]
+            [
+                matrix[x][y],
+                matrix[y][x],
+            ]=[
+                matrix[y][x],
+                matrix[x][y],
+            ];
+
+        }
+    }
+    if (dir > 0){
+        
+    }
+}
+
 let dropCounter =0;
 let dropInterval = 1000;
 
