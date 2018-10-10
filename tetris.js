@@ -108,9 +108,11 @@ function rotate(matrix, dir){
             ];
 
         }
-    }
+    }//the bellow code is reversing the rows. to complete the rotation. 
     if (dir > 0){
-        
+        matric.forEach(row => row.reverse());
+    }else{
+        matrix.reverse();
     }
 }
 
