@@ -13,6 +13,8 @@ const matrix = [
     [1,1,1],
     [0,1,0],
 ];
+
+function collide(arena, player)
 //the object that all the pieces are going to be saved
 function createMatrix(w,h) {
     const matrix = [];
@@ -46,6 +48,16 @@ function drawMatrix(matrix, offset){
         });
     });
 };
+//this function merges the data forms of the player and arena so that collision functions and object representation can take place.
+function merge(arena,player){
+    player.matrix.forEach((row,y)=>{
+        row.forEach((value,x)=>{
+            if (value !==0){
+                arena[y + player.pos.y][x + player.pos.x] = value;
+            }
+        });
+    });
+}
 //function for all downward motion
 function playerDrop(){
     player.pos.y++;
