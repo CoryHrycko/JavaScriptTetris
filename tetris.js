@@ -37,9 +37,9 @@ function createMatrix(w,h) {
     }
     return matrix
 }
-//Fun objects that are the shapes
+//Fun objects that are the shapes// different numbers different colors
 function createPiece(type){
-    if (type ==="T"){
+    if (type ==='T'){
        return[
             [0,0,0],
             [1,1,1],
@@ -47,52 +47,64 @@ function createPiece(type){
        ];
     }else if (type === 'O'){
         return[
-            [1,1,1],
-            [1,0,1],
-            [1,1,1],
+            [2,2,2],
+            [2,0,2],
+            [2,2,2],
         ];
-    }else if (type === 'O1'){
+    }else if (type === 'Q'){
         return[
-            [1, 1],
-            [1, 1],
+            [3, 3],
+            [3, 3],
         ];
     }else if (type === 'L'){
         return[
-            [1,0,0],
-            [1,0,0],
-            [1,1,1],
+            [4,0,0],
+            [4,0,0],
+            [4,4,4],
         ];
     }else if (type === 'J'){
         return[
-            [0,0,1],
-            [0,0,1],
-            [1,1,1],
+            [0,0,5],
+            [0,0,5],
+            [5,5,5],
         ];
     }else if (type === 'I'){
         return[
-            [0,0,1,0],
-            [0,0,1,0],
-            [0,0,1,0],
-            [0,0,1,0],
+            [0,0,6,0],
+            [0,0,6,0],
+            [0,0,6,0],
+            [0,0,6,0],
         ];
-    }else if (type === 'I1'){
+    }else if (type === 'P'){
         return[
-            [0,1,0,0],
-            [0,1,0,0],
-            [0,1,0,0],
-            [0,1,0,0],
+            [0,6,0,0],
+            [0,6,0,0],
+            [0,6,0,0],
+            [0,6,0,0],
         ];
     }else if (type === 'S'){
         return[
-            [0,1,1],
-            [1,1,0],
+            [0,8,8],
+            [8,8,0],
             [0,0,0],
         ];
     }else if (type === 'K'){
         return[
-            [1,1,0],
-            [0,1,1],
+            [8,8,0],
+            [0,8,8],
             [0,0,0],
+        ];
+    }else if (type === 'G'){
+        return[
+            [7,0,0],
+            [7,0,1],
+            [7,7,7],
+        ];
+    }else if (type === 'U'){
+        return[
+            [9,0,9],
+            [9,0,9],
+            [9,9,9],
         ];
     }
 }
@@ -147,7 +159,8 @@ function playerDrop(){
         player.pos.y--;
         //merges the piece onto the areana object as a property. 
         merge(arena, player);
-        player.pos.y=0;
+        //player.pos.y=0;-------replaced with player reset
+        playerReset();
     }
     dropCounter=0;
 }
@@ -161,14 +174,19 @@ function playerMove(dir){
 }
 
 function playerReset(){
-    const = pieces = 'ILJOTSZO1I1';
+    const pieces = 'ILJOTSKPQG';
     //math.random floored sorthand
-    player.matrix=createPeice(pieces[pieces.length * Math.random() | 0]);
-    player.pos.y=0;
+    player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
+    player.pos.y = 0;
     //arena [0] means first row
-    player.pos.x=   (arena[0].length /2 | 0) -
-                    (player.matrix[0])
+    player.pos.x =  (arena[0].length / 2 | 0) -
+                    (player.matrix[0].length / 2 | 0);
+    if (collide(arena,player)) {
+        arena.forEach(row => row.fill(0));
+    }
+
 }
+
 //matching the rotate function with the blocks
 function playerRotate(dir){
     const pos = player.pos.x
@@ -232,6 +250,9 @@ function update(time = 0) {
     requestAnimationFrame(update);
 
 }
+
+const colors = 0;
+
 
 const arena = createMatrix(12, 20);
 //console.log(arena);
