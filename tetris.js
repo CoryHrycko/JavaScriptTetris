@@ -8,11 +8,11 @@ context.scale(20,20);
 //context.fillStyle = '#000';
 //context.fillRect(0,0,canvas.width, canvas.height);
 //first block matrix
-const matrix = [
+/*const matrix = [
     [0,0,0],
     [1,1,1],
     [0,1,0],
-];
+];*///above matrix is for writting the other functions before adding the rest of the shapes
 //the main collide function
 function collide(arena, player){
     //assigning shorter variables
@@ -37,6 +37,72 @@ function createMatrix(w,h) {
     }
     return matrix
 }
+//Fun objects that are the shapes
+function createPiece(type){
+    if (type ==="T"){
+       return[
+            [0,0,0],
+            [1,1,1],
+            [0,1,0],
+       ];
+    }else if (type === 'O'){
+        return[
+            [1,1,1],
+            [1,0,1],
+            [1,1,1],
+        ];
+    }else if (type === 'O1'){
+        return[
+            [1, 1],
+            [1, 1],
+        ];
+    }else if (type === 'L'){
+        return[
+            [1,0,0],
+            [1,0,0],
+            [1,1,1],
+        ];
+    }else if (type === 'J'){
+        return[
+            [0,0,1],
+            [0,0,1],
+            [1,1,1],
+        ];
+    }else if (type === 'I'){
+        return[
+            [0,0,1,0],
+            [0,0,1,0],
+            [0,0,1,0],
+            [0,0,1,0],
+        ];
+    }else if (type === 'I1'){
+        return[
+            [0,1,0,0],
+            [0,1,0,0],
+            [0,1,0,0],
+            [0,1,0,0],
+        ];
+    }else if (type === 'S'){
+        return[
+            [0,1,1],
+            [1,1,0],
+            [0,0,0],
+        ];
+    }else if (type === 'K'){
+        return[
+            [1,1,0],
+            [0,1,1],
+            [0,0,0],
+        ];
+    }
+}
+
+
+
+
+
+
+
 //simplifies the draw function
 function draw() {
     //applying the clear function
@@ -94,6 +160,33 @@ function playerMove(dir){
     
 }
 
+function playerReset(){
+    const = pieces = 'ILJOTSZO1I1';
+    //math.random floored sorthand
+    player.matrix=createPeice(pieces[pieces.length * Math.random() | 0]);
+    player.pos.y=0;
+    //arena [0] means first row
+    player.pos.x=   (arena[0].length /2 | 0) -
+                    (player.matrix[0])
+}
+//matching the rotate function with the blocks
+function playerRotate(dir){
+    const pos = player.pos.x
+    //the offset wiggle function will allow the intialize
+    let offset = 1;
+    rotate(player.matrix,dir);
+    //allows for a growing of wigle to get un collided
+    while (collide(arena, player)){
+        player.pos.x+=offset;
+        offset=-(offset +(offset>0?1:-1));
+        if (offset >player.matrix[0].length){
+            rotate(player.matrix, -dir);
+            player.pos.x=pos;
+            return;
+        }
+    }
+}
+
 function rotate(matrix, dir){
     for(let y=0;y<matrix.length;++y){
         for (let x = 0;x<y; ++x){
@@ -148,7 +241,7 @@ const arena = createMatrix(12, 20);
 //making the player variable DONT PUT EXTRA SPACES OR IT BREAKS
 const player = {
     pos: {x: 5,y: 5},
-    matrix: matrix,
+    matrix: createPiece('T'),
 
 }
 //simple key logger
@@ -166,6 +259,12 @@ document.addEventListener('keydown', event =>{
     //key command for speeding up down
     }else if (event.keyCode ===40){
         playerDrop();
+    //rotates left    
+    }else if ( event.keyCode === 81){
+        playerRotate(-1);
+    //rotates right    
+    }else if ( event.keyCode === 87){
+        playerRotate(1);
     }
 });
 
