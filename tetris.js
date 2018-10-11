@@ -4,6 +4,28 @@ const canvas = document.getElementById('tetris');
 const context = canvas.getContext('2d');
 //scalling the blocks
 context.scale(20,20);
+
+//sweep the arean in the reverse direction for the y and regulare for x
+function arenaSweep() {
+    let rowCount = 1;
+    outer:for (let y = arena.length - 1;y > 0; --y){
+        // if there is a zero it means it is not fully populated
+        for (let x = 0; x < arena[y].length; ++x){
+            if (arena[y][x] ===0){
+                //continue outer allows to continue the correcsponding loop
+                continue outer;
+            }
+        }
+        //the defined spot where it creates the new mt row
+        const row = arena.splice(y,1)[0].fill(0);
+        arena.unshift(row);
+        ++y;
+
+        player.score +=rowCount * 10;
+        rowCount*=2;
+    }
+
+}
 //applying the background commented out in order to allow clearing
 //context.fillStyle = '#000';
 //context.fillRect(0,0,canvas.width, canvas.height);
@@ -97,7 +119,7 @@ function createPiece(type){
     }else if (type === 'G'){
         return[
             [7,0,0],
-            [7,0,1],
+            [7,0,7],
             [7,7,7],
         ];
     }else if (type === 'U'){
@@ -133,7 +155,7 @@ function drawMatrix(matrix, offset){
         row.forEach((value, x)=>{
             //the actual identifying of the 0 and 1 to make them red
             if(value !== 0){
-                context.fillStyle='red';
+                context.fillStyle=colors[value];
                 context.fillRect(x + offset.x,
                                  y + offset.y,
                                  1,1);
@@ -161,6 +183,10 @@ function playerDrop(){
         merge(arena, player);
         //player.pos.y=0;-------replaced with player reset
         playerReset();
+        // !!!!!!!!!!!!!!! debugger; important
+        //allows for checking of rows and resetting new mt rows
+        arenaSweep();
+        updateScore();
     }
     dropCounter=0;
 }
@@ -183,6 +209,8 @@ function playerReset(){
                     (player.matrix[0].length / 2 | 0);
     if (collide(arena,player)) {
         arena.forEach(row => row.fill(0));
+        player.score = 0;
+        updateScore();
     }
 
 }
@@ -251,7 +279,23 @@ function update(time = 0) {
 
 }
 
-const colors = 0;
+function updateScore(){
+    document.getElementById('score').innerText = player.score;
+}
+
+// the colors of the players
+const colors = [
+    null,
+    'red',
+    'blue',
+    'purple',
+    'green',
+    'yellow',
+    'orange',
+    'magenta',
+    'cyan',
+    'white',
+];
 
 
 const arena = createMatrix(12, 20);
@@ -261,8 +305,10 @@ const arena = createMatrix(12, 20);
 
 //making the player variable DONT PUT EXTRA SPACES OR IT BREAKS
 const player = {
-    pos: {x: 5,y: 5},
-    matrix: createPiece('T'),
+    pos: {x: 0,y: 0},
+    //matrix: createPiece('T'),
+    matrix: null,
+    score: 0,
 
 }
 //simple key logger
@@ -291,6 +337,9 @@ document.addEventListener('keydown', event =>{
 
 //draws the shape.
 
+
+playerReset();
+updateScore();
 update();
 
 
