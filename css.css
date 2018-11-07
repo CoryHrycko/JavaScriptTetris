@@ -1,12 +1,24 @@
+*{
+    margin:0;
+    padding: 0;
+}
 body{
+    height:100%;
+    width:100%;
     background: url('https://images.unsplash.com/photo-1518495973542-4542c06a5843?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=556a0fefb9afd3f5b1b37fc35b4e2c81&auto=format&fit=crop&w=1268&q=80');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size:cover;
     text-align: center; 
+    justify-content: center;
+    align-content: center;
+    
 }
 .container{
+    width:800px;
     background-color: bisque;
-    opacity: .8;
-    padding-bottom: 2em;
+    padding-bottom: 5em;
+    justify-content: center;
+    align-content: center;
+    
 }
